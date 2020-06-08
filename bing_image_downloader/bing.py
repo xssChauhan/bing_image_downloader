@@ -15,9 +15,10 @@ Author: Guru Prasad (g.gaurav541@gmail.com)
 
 class Bing():
 
-    def __init__(self):
+    def __init__(self, output_dir):
         self.download_count = 0
         self.headers = {'User-Agent': 'Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0'}
+        self.output_dir = Path(output_dir)
 
     def save_image(self, link, file_path):
         request = urllib.request.Request(link, None, self.headers)
@@ -42,8 +43,12 @@ class Bing():
             # Download the image
             print("[%] Downloading Image #{} from {}".format(self.download_count, link))
 
-            self.save_image(link, "{}/dataset/bing/{}/".format(os.getcwd(), query) + "Image_{}.{}".format(
-                str(self.download_count), file_type))
+            # self.save_image(link, "{}/dataset/bing/{}/".format(os.getcwd(), query) + "Image_{}.{}".format(
+            #     str(self.download_count), file_type))
+            self.save_image(
+                link,
+                self.output_dir / filename
+            )
             print("[%] File Downloaded !\n")
         except Exception as e:
             self.download_count -= 1

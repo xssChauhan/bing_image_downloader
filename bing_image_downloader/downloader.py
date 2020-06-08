@@ -7,7 +7,7 @@ except ImportError:  # Python 3
     from .bing import Bing
 
 
-def download(query, limit=100, adult_filter_off=True, force_replace=False):
+def download(query, limit=100, adult_filter_off=True, force_replace=False, output_dir=None):
 
     engine = 'bing'
     if adult_filter_off:
@@ -22,13 +22,5 @@ def download(query, limit=100, adult_filter_off=True, force_replace=False):
         if os.path.isdir(image_dir):
             shutil.rmtree(image_dir)
 
-    # check directory and create if necessary
-    try:
-        if not os.path.isdir("{}/dataset/".format(cwd)):
-            os.makedirs("{}/dataset/".format(cwd))
-    except:
-        pass
-    if not os.path.isdir("{}/dataset/{}/{}".format(cwd, engine, query)):
-        os.makedirs("{}/dataset/{}/{}".format(cwd, engine, query))
-
-    Bing().bing(query, limit, adult)
+    os.makedirs(output_dir, exist_ok=True)
+    Bing(output_dir=output_dir).bing(query, limit, adult)
